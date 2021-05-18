@@ -26,8 +26,8 @@ Used tools:
 The pipeline was configured to run when a person makes a push to the github repository
 
 The following endpoints are deployed:
-  GET - https://pkcsq85ngc.execute-api.us-east-1.amazonaws.com/dev/video-games
-  POST - https://pkcsq85ngc.execute-api.us-east-1.amazonaws.com/dev/video-games
-  PUT - https://pkcsq85ngc.execute-api.us-east-1.amazonaws.com/dev/video-games
-  GET - https://pkcsq85ngc.execute-api.us-east-1.amazonaws.com/dev/video-games/{serialNumber}
-  DELETE - https://pkcsq85ngc.execute-api.us-east-1.amazonaws.com/dev/video-games/{serialNumber}
+* GET - https://pkcsq85ngc.execute-api.us-east-1.amazonaws.com/dev/video-games
+* POST - https://pkcsq85ngc.execute-api.us-east-1.amazonaws.com/dev/video-games
+* PUT - https://pkcsq85ngc.execute-api.us-east-1.amazonaws.com/dev/video-games
+* GET - https://pkcsq85ngc.execute-api.us-east-1.amazonaws.com/dev/video-games/{serialNumber}
+* DELETE - https://pkcsq85ngc.execute-api.us-east-1.amazonaws.com/dev/video-games/{serialNumber}
