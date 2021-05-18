@@ -1,0 +1,93 @@
+service: devco-api
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+  #- serverless-dynamodb-local 
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  stage: dev
+  lambdaHashingVersion: 20201221
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        'Fn::GetAtt':
+          - VideoGameTable
+          - Arn
+functions:
+  listVideoGames:
+    handler: src/handler.listVideoGames
+    events:
+      - http:
+          path: /video-games
+          method: get
+    environment:
+      DYNAMO_TABLE: video-games-${opt:stage, self:provider.stage}
+  createVideoGames:
+    handler: src/handler.createVideoGames
+    events:
+      - http:
+          path: /video-games
+          method: post
+    environment:
+      DYNAMO_TABLE: video-games-${opt:stage, self:provider.stage}
+  updateVideoGames:
+    handler: src/handler.updateVideoGames
+    events:
+      - http:
+          path: /video-games
+          method: put
+    environment:
+      DYNAMO_TABLE: video-games-${opt:stage, self:provider.stage}
+  oneVideoGame:
+    handler: src/handler.oneVideoGame
+    events:
+      - http:
+          path: /video-games/{serialNumber}
+          method: get
+    environment:
+      DYNAMO_TABLE: video-games-${opt:stage, self:provider.stage}
+  deleteVideoGame:
+    handler: src/handler.deleteVideoGame
+    events:
+      - http:
+          path: /video-games/{serialNumber}
+          method: delete
+    environment:
+      DYNAMO_TABLE: video-games-${opt:stage, self:provider.stage}
+
+resources:
+  Resources:
+    VideoGameTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: video-games-${opt:stage, self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: serialNumber
+            AttributeType: S
+        KeySchema:
+          - AttributeName: serialNumber
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+custom:
+  dynamodb:
+    stages:
+      - ${self:provider.stage}
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+  serverless-offline:    
+    httpPort: 4000
