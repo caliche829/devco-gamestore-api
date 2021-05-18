@@ -24,8 +24,6 @@ export default class VideoGameService {
       TableName: process.env.DYNAMO_TABLE
     };
 
-    //var request: HttpResponse = new HttpResponse();
-
     return docClient.scan(params).promise().then((data) => {
       console.log('Found DynamoDB data');
       return data.Items;
@@ -52,7 +50,7 @@ export default class VideoGameService {
     };
 
     return docClient.get(params).promise().then((data) => {
-      console.log('Found DynamoDB data');
+      console.log(`VideoGame with SerialNumber [${serialNumber}] returned`);
       return data.Item;
     }).catch(error => {
       console.log(`==>> Error [OneVideoGame] [${error.message}]`);
@@ -77,8 +75,8 @@ export default class VideoGameService {
     };
 
     return docClient.delete(params).promise().then((data) => {
-      console.log('Deleted DynamoDB record');
-      return data;
+      console.log(`VideoGame with SerialNumber [${serialNumber}] deleted`);
+      return { message: `VideoGame with SerialNumber [${serialNumber}] deleted` };
     }).catch(error => {
       console.log(`==>> Error [queryData] [${error.message}]`);
     });
