@@ -1,4 +1,4 @@
-name: devco-pipeline
+name: devco-gamestore-deploy-pipeline
 
 on:
   push:
